@@ -20,7 +20,7 @@ class PanelCliente extends CI_Controller {
         $this->load->library('form_validation');       
         $this->data['custom_error'] = '';
         $this->load->view('panelcliente/login',$this->data);    
-        mail('ronald152515@gmail.com', 'Nueva O.S', 'Nueva Orden de Servicio Ingresada');    
+        
 		
 	}
 
