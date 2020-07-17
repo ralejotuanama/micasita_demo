@@ -7,6 +7,7 @@ class PanelCliente extends CI_Controller {
 		parent::__construct();
         $this->load->helper(array('form', 'codegen_helper'));
         $this->load->model('Conecte_model');
+        $this->load->library("email");
         
     }
     
@@ -293,7 +294,6 @@ class PanelCliente extends CI_Controller {
         $data['menua'] = 'aparatos';
         $this->load->library('pagination');
         
-        
         $config['base_url'] = base_url().'index.php/panelcliente/aparatos/';
         $config['total_rows'] = $this->Conecte_model->count('aparatos',$this->session->userdata('id'));
         $config['per_page'] = 10;
@@ -401,6 +401,7 @@ class PanelCliente extends CI_Controller {
         $this->load->view('panelcliente/template', $data);
     }
     
+
     public function adicionarAjax(){
         $this->load->library('form_validation');
 
@@ -809,6 +810,7 @@ class PanelCliente extends CI_Controller {
 
     }
 
+
     public function agregarlineas(){
 
         $this->load->model('Conecte_model');
@@ -1010,16 +1012,18 @@ class PanelCliente extends CI_Controller {
     public function guardar_linea(){
 
 
-                        $razonsocial = $this->input->post('razonsocial');
-                        $telefono1 = $this->input->post('telefono1');
-                        $telefono2 = $this->input->post('telefono2');
-                        $telefono3 = $this->input->post('telefono3');
-                        $correo1 = $this->input->post('correo1');
-                         $correo2 = $this->input->post('correo2');
-                        $departamento = $this->input->post('departamento');
+
+
+                         $razonsocial = $this->input->post('razonsocial');
+                         $telefono1   = $this->input->post('telefono1');
+                         $telefono2   = $this->input->post('telefono2');
+                         $telefono3   = $this->input->post('telefono3');
+                         $correo1     = $this->input->post('correo1');
+                         $correo2     = $this->input->post('correo2');
+                         $departamento = $this->input->post('departamento');
                          $provincia = $this->input->post('provincia');
-                        $distrito = $this->input->post('distrito');
-                        $direccion = $this->input->post('direccion');
+                         $distrito = $this->input->post('distrito');
+                         $direccion = $this->input->post('direccion');
                          $referencia = $this->input->post('referencia');
 
 
@@ -1045,7 +1049,6 @@ class PanelCliente extends CI_Controller {
                             'fecharegistro' => date('d-m-Y'),
                             'estadolinea' => '0',
                             'idClientes' => $this->session->userdata('id')
-                
                           );
 
 
@@ -1053,11 +1056,42 @@ class PanelCliente extends CI_Controller {
 
 
 
-                       
-                    
                         if ( is_numeric($codlinea = $this->Conecte_model->addlineanueva('lineas', $data2,true))) {
 
-                            if(!empty($_FILES['userfile1']['name'])){
+		                            //configuracion para gmail
+		                               $configGmail = array(
+			                               'protocol' => 'smtp',
+			                              /* 'smtp_host' => 'smtp.live.com', */
+			                               'smtp_host' => 'ssl://smtp.gmail.com',
+			                               'smtp_port' => 465,
+			                               'smtp_user' => 'ronald152515@gmail.com',
+			                               'smtp_pass' => 'ronaldsandy',
+			                               'mailtype' => 'html',
+			                               'charset' => 'utf-8',
+			                               'newline' => "\r\n"
+		                                 );
+
+		                           //cargamos la configuración para enviar con gmail
+		                                $this->email->initialize($configGmail);
+
+		                                 $this->email->from('ronald152515@gmail.com');
+		                                 $this->email->to("ronald152515@gmail.com");
+		                                 $this->email->subject('Esto es una prueba');
+		                                 $this->email->message('<h2>Correo con imagen</h2>');
+
+
+		                                for ($i=1; $i <=1 ; $i++) { 
+			                                 if ($this->email->send()) {
+				                                      echo "Enviado ronald alejo";
+			                                    }else{
+				                                     show_error($this->email->print_debugger());
+			                                        }
+			                                sleep(1);
+		                                      }
+
+
+
+                                if(!empty($_FILES['userfile1']['name'])){
 
                                      $nombreCompleto          = $_FILES['userfile1']['name'];
                                      $config['upload_path']   = '././assets/anexos/';
@@ -1080,7 +1114,7 @@ class PanelCliente extends CI_Controller {
                                     $this->Conecte_model->anexarlinea($this->session->userdata('id'),  $nombreCompleto ,base_url().'assets/anexos/','thumb_'. $nombreCompleto,realpath('./assets/anexos/'),'1',$codlinea,"archivo linea1");
                                   } 
                 
-                            if(!empty($_FILES['userfile2']['name'])){
+                                if(!empty($_FILES['userfile2']['name'])){
                                             
                                     $nombreCompleto2          = $_FILES['userfile2']['name'];
                                     $config2['upload_path']   = '././assets/anexos/';
@@ -1103,7 +1137,7 @@ class PanelCliente extends CI_Controller {
                                  }
 
 
-                            if(!empty($_FILES['userfile3']['name'])){
+                                if(!empty($_FILES['userfile3']['name'])){
                                         
                                     $nombreCompleto3          = $_FILES['userfile3']['name'];
                                     $config3['upload_path']   = '././assets/anexos/';
@@ -1126,7 +1160,7 @@ class PanelCliente extends CI_Controller {
                                     $this->Conecte_model->anexarlinea($this->session->userdata('id'), $nombreCompleto3 ,base_url().'assets/anexos/','thumb_'.$nombreCompleto3,realpath('./assets/anexos/'),'1',$codlinea,"archivo linea3");
                                  }
 
-                            if(!empty($_FILES['userfile4']['name'])){
+                                if(!empty($_FILES['userfile4']['name'])){
                                              
                                     $nombreCompleto4          = $_FILES['userfile4']['name'];
                                     $config4['upload_path']   = '././assets/anexos/';
@@ -1156,9 +1190,6 @@ class PanelCliente extends CI_Controller {
                             } else {
                                  $this->data['custom_error'] = '<div class="form_error"><p>No se pudo agregar línea.</p></div>';
                            }
-
-
-
 
                                 $this->session->set_flashdata('success','linea creada satisfactoriamente y datos actualizados!');
                                 redirect(base_url() . 'index.php/panelcliente/conta');
@@ -1191,6 +1222,37 @@ class PanelCliente extends CI_Controller {
                     );
 
                     if ( is_numeric($codsolicitud = $this->conecte_model->addSolicitud('solicitudes', $data,true))) {
+
+                        $configGmail = array(
+                            'protocol' => 'smtp',
+                           /*'smtp_host' => 'smtp.live.com',*/
+                            'smtp_host' => 'ssl://smtp.gmail.com',
+                            'smtp_port' => 465,
+                            'smtp_user' => 'ronald152515@gmail.com',
+                            'smtp_pass' => 'ronaldsandy',
+                            'mailtype' => 'html',
+                            'charset' => 'utf-8',
+                            'newline' => "\r\n"
+                          );
+
+                    //cargamos la configuración para enviar con gmail
+                         $this->email->initialize($configGmail);
+
+                          $this->email->from('ronald152515@gmail.com');
+                          $this->email->to("ronald152515@gmail.com");
+                          $this->email->subject('Esto es una prueba');
+                          $this->email->message('<h2>Correo con imagen</h2>');
+
+
+                            for ($i=1; $i <=1 ; $i++) { 
+                                   if ($this->email->send()) {
+                                            echo "Enviado ronald alejo";
+                                     }else{
+                                           show_error($this->email->print_debugger());
+                                        }
+                                     sleep(1);
+                               }
+
 
                                 if(!empty($_FILES['userfile1']['name'])){
                                       $nombreCompleto          = $_FILES['userfile1']['name'];

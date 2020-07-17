@@ -28,7 +28,8 @@ class Csendmail extends CI_Controller
 		//configuracion para gmail
 		$configGmail = array(
 			'protocol' => 'smtp',
-			'smtp_host' => 'ssl://smtp.googlemail.com',
+			/* 'smtp_host' => 'smtp.live.com', */
+			'smtp_host' => 'ssl://smtp.gmail.com',
 			'smtp_port' => 465,
 			'smtp_user' => 'ronald152515@gmail.com',
 			'smtp_pass' => 'ronaldsandy',
@@ -42,19 +43,13 @@ class Csendmail extends CI_Controller
 
 		$this->email->from('ronald152515@gmail.com');
 		$this->email->to("ronald152515@gmail.com");
-		$this->email->subject('Esto es una prueba á');
-		$this->email->message('<h2>Correo con imagen</h2>
-			<hr><br>
-			Kurt Cobain
-			<br>
-			<a href="http://www.facebook.com/intecsolt"><img src="'.base_url().'img/7.jpg" height="150" width="150"></a>
-			<h3>Click en la imagen y dale like a mi pagina :D</h3>'
-			);
+		$this->email->subject('Esto es una prueba');
+		$this->email->message('<h2>Correo con imagen</h2>');
 
 
 		for ($i=1; $i <=1 ; $i++) { 
 			if ($this->email->send()) {
-				echo "Enviado by litokurt";
+				echo "Enviado ronald alejo";
 			}else{
 				show_error($this->email->print_debugger());
 			}
