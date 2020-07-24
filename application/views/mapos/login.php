@@ -60,7 +60,7 @@
 
         <script type="text/javascript">
             $(document).ready(function(){
-
+/*
                 $('#email').focus();
                 $("#formLogin").validate({
                      rules :{
@@ -110,7 +110,7 @@
                         $(element).parents('.control-group').addClass('success');
                     }
                 });
-
+*/
             });
 
         </script>

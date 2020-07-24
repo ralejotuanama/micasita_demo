@@ -84,20 +84,13 @@
       
       </div>
     </div>
+
+
+
     <!--Footer-part-->
     <div class="row-fluid">
       <div id="footer" class="span12" style="color:white;font-size:18px;"> 2020 &copy;  miCasita Hipotecaria </div>
     </div>
-
-
-
-
-
-
-
-     
-
-
 
 
 

@@ -3,25 +3,16 @@
 class PanelCliente extends CI_Controller {
 
 	public function __construct(){
-
 		parent::__construct();
         $this->load->helper(array('form', 'codegen_helper'));
         $this->load->model('Conecte_model');
-        $this->load->library("email");
-        
+        $this->load->library("email");  
     }
     
-
-
-
-
 	public function index(){
-
         $this->load->library('form_validation');       
         $this->data['custom_error'] = '';
-        $this->load->view('panelcliente/login',$this->data);    
-        
-		
+        $this->load->view('panelcliente/login',$this->data);       
 	}
 
 	public function sair(){
@@ -37,7 +28,7 @@ class PanelCliente extends CI_Controller {
         $this->form_validation->set_rules('documento','Documento','Documento valido|required|xss_clean|trim');
       /*  $this->form_validation->set_rules('telefono','Telefono','required|xss_clean|trim');*/
       $this->form_validation->set_rules('clave','Clave','required|xss_clean|trim');
-        $ajax = $this->input->get('ajax');
+       // $ajax = $this->input->get('ajax');
         if ($this->form_validation->run() == false) {
             
             if($ajax == true){
@@ -52,9 +43,9 @@ class PanelCliente extends CI_Controller {
         } 
         else {
           /* $email = $this->input->post('email');*/ 
-          $clave = $this->input->post('clave');
-          $this->load->library('encrypt');   
-          $clave = $this->encrypt->sha1($clave);
+           $clave = $this->input->post('clave');
+           $this->load->library('encrypt');   
+           $clave = $this->encrypt->sha1($clave);
            $documento = $this->input->post('documento');
           /*  $telefono = $this->input->post('telefono');*/
           /* $this->db->where('email',$email);*/
@@ -69,24 +60,30 @@ class PanelCliente extends CI_Controller {
             if(count($cliente) > 0){
                 $dados = array('nombre' => $cliente->nombreCliente, 'id' => $cliente->idClientes,'token' => 20540658, 'ruc' => $cliente->documento, 'conectado' => TRUE);
                 $this->session->set_userdata($dados);
+                $this->session->set_flashdata('success','Bienvenido al Sistema'." ".$dados[nombre]);
 
-                if($ajax == true){
+                redirect(base_url().'/index.php/panelcliente/painel');
+
+             /* if($ajax == true){
                     $json = array('result' => true);
                     echo json_encode($json);
+                    redirect(base_url().'/index.php/panelcliente/painel');
                 }
                 else{
                     redirect(base_url().'panelcliente');
-                }    
+                } */  
             }
             else{
-                if($ajax == true){
+               /* if($ajax == true){
                     $json = array('result' => false);
                     echo json_encode($json);
                 }
                 else{
-                    $this->session->set_flashdata('error','Los datos de acceso son incorrectos.');
-                    redirect(base_url().'panelcliente');
-                }
+                    $this->session->set_flashdata('error','Los datos de acceso son incorrectos_.');
+                    redirect(base_url().'/index.php/panelcliente');
+                }*/
+                $this->session->set_flashdata('error','Los datos de acceso son incorrectos, vuelva a ingresar sus credenciales');
+                    redirect(base_url().'/index.php/panelcliente');
             }
             
         }
@@ -94,12 +91,8 @@ class PanelCliente extends CI_Controller {
     }
 
 
-
-
 	public function painel(){
 		
-		
-
         $data['menuPainel'] = 'painel';
 		$data['compras'] = $this->Conecte_model->getLastCompras($this->session->userdata('id'));
         $data['os'] = $this->Conecte_model->getLastOs($this->session->userdata('id'));
@@ -401,6 +394,8 @@ class PanelCliente extends CI_Controller {
         $this->load->view('panelcliente/template', $data);
     }
     
+
+
 
     public function adicionarAjax(){
         $this->load->library('form_validation');
@@ -1011,9 +1006,6 @@ class PanelCliente extends CI_Controller {
 
     public function guardar_linea(){
 
-
-
-
                          $razonsocial = $this->input->post('razonsocial');
                          $telefono1   = $this->input->post('telefono1');
                          $telefono2   = $this->input->post('telefono2');
@@ -1239,7 +1231,7 @@ class PanelCliente extends CI_Controller {
                          $this->email->initialize($configGmail);
 
                           $this->email->from('********');
-                          $this->email->to("*********);
+                          $this->email->to("*********");
                           $this->email->subject('Esto es una prueba');
                           $this->email->message('<h2>Correo con imagen</h2>');
 

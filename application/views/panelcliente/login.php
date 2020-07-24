@@ -13,7 +13,7 @@
     </head>
     <body style="margin-top: 0 !important;">
         <div id="loginbox" >            
-            <form  class="form-vertical" id="formLogin" method="post" action="<?php echo base_url()?>index.php/panelcliente/login ?>">
+            <form  class="form-vertical" id="formLogin" method="post" action="<?php echo base_url()?>/index.php/panelcliente/login">
     
                <?php  echo $custom_error; ?>
 
@@ -77,7 +77,12 @@
 
 
         <script type="text/javascript">
+
             $(document).ready(function(){
+
+                      
+           /*
+                  
                 $('#documento').focus();
                 $("#formLogin").validate({
                      rules :{
@@ -90,6 +95,7 @@
                     },
                    submitHandler: function( form ){       
                          var dados = $( form ).serialize();
+                         //alert(dados);
                          
                     
                         $.ajax({
@@ -132,7 +138,35 @@
                     }
                 });
 
+
+               */
             });
+
+                                  function mayus(e) {
+                                              e.value = e.value.toUpperCase();
+                                   }
+
+
+
+                                  $(function(){
+                                        $(".validar").keydown(function(event){
+                                       //alert(event.keyCode);
+                                     if((event.keyCode < 48 || event.keyCode > 57) &&
+                                      (event.keyCode < 96 || event.keyCode > 105) &&
+                                       event.keyCode !==190  && event.keyCode !==110 && 
+                                       event.keyCode !==8 && event.keyCode !==9  ){
+                                               return false;
+                                             }
+                                      });
+
+
+                                     
+
+                                 });
+
+
+                               
+  
 
         </script>
 
@@ -165,15 +199,14 @@
                 <!--<div class="widget-content nopadding">-->
                 
 
-                <div class="control-group5"  style="text-align:center;">
+                                      <div class="control-group5"  style="text-align:center;">
                                             <label for="tipodocumento" style="font-size:12px;margin-right:125px;">Tipo Documento:<span class="required"></span></label>
                                             <select class="" name="tipodocumento" id="tipodocumento" value="">
                                                 <option value="RUC">RUC</option>
-                                                <option value="DNI">DNI</option>
-                                               
+                                                <option value="DNI">DNI</option>  
                                             </select>
                                            
-                      </div>
+                                      </div>
 
                
 
@@ -184,7 +217,7 @@
                       <div class="control-group5" style="text-align:center;">
                          <label for="documento" class="control-label" style="font-size:12px;margin-right:172px;">Numero:<span class="required"></span></label>
                          <div class="controls">
-                            <input id="documento" required type="text" name="documento" value="<?php echo set_value('documento'); ?>" placeholder="" />
+                            <input id="documento" required type="text" name="documento" value="<?php echo set_value('documento'); ?>" placeholder="" class="validar" />
                            
                          </div>
                        </div>
@@ -192,7 +225,7 @@
                        <div class="control-group5" style="text-align:center;">
                          <label for="nombre" class="control-label" style="font-size:12px;margin-right:172px;">Nombre:<span class="required"></span></label>
                          <div class="controls">
-                            <input id="nombre" required type="text" name="nombre" value="" placeholder="" />
+                            <input id="nombre" required type="text" name="nombre" value="" placeholder=""  onkeyup="mayus(this);"/>
                            
                          </div>
                        </div>

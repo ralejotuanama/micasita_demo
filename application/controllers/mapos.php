@@ -115,8 +115,10 @@ public function alterarSenha() {
             if(count($usuario) > 0){
                 $dados = array('nombre' => $usuario->nombre, 'id' => $usuario->idUsuarios,'permissao' => $usuario->permissoes_id , 'logado' => TRUE);
                 $this->session->set_userdata($dados);
+                $this->session->set_flashdata('success','Bienvenido al Sistema'." ".$dados[nombre]);
+                redirect(base_url().'index.php/clientes');
 
-                if($ajax == true){
+               /* if($ajax == true){
                     $json = array('result' => true);
                     echo json_encode($json);  
                     
@@ -124,18 +126,20 @@ public function alterarSenha() {
                 else{
                     
                    redirect(base_url().'clientes');
-                }   
+                } */  
             }
             else{
                 
-                if($ajax == true){
+               /* if($ajax == true){
                     $json = array('result' => false);
                     echo json_encode($json);
                 }
                 else{
                     $this->session->set_flashdata('error','Los datos de acceso son incorrectos.');
                     redirect($this->login);
-                }
+                }*/
+                $this->session->set_flashdata('error','Los datos de acceso son incorrectos, vuelva a ingresar sus credenciales');
+                redirect(base_url().'/index.php/mapos/login');
             }
             
         }

@@ -142,6 +142,9 @@
     <li class=""><a href="<?php echo base_url()?>index.php/mapos/sair"><i class="icon icon-share-alt"></i> <span>Salir</span></a></li>
   </ul>
 </div>
+
+
+
 <div id="content" style="min-height:550px;">
       <div id="content-header">
         <div id="breadcrumb"><a href="" title="" class="tip-bottom"> <i class="icon-home"></i> Panel Control</a></div>
@@ -170,9 +173,12 @@
     </div>
   </div>
 </div>
+
+
+
 <!--Footer-part-->
 <div class="row-fluid">
-  <div id="footer" class="span12"> 2020 &copy; MiCasita Hipotecaria </div>
+  <div id="footer" class="span12" style="color:white;font-size:18px;"> 2020 &copy; MiCasita Hipotecaria </div>
 </div>
 <!--end-Footer-part-->
 

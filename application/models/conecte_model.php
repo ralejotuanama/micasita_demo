@@ -24,6 +24,24 @@ class Conecte_model extends CI_Model {
         return $result;
     }
 
+
+
+    public function get__($table,$fields,$where='',$perpage=0,$start=0,$one=false,$array='array'){
+        
+        $this->db->select($fields);
+        $this->db->from($table);
+        $this->db->order_by('idClientes','desc');
+        $this->db->limit($perpage,$start);
+        if($where){
+            $this->db->where($where);
+        }
+        
+        $query = $this->db->get();
+        
+        $result =  !$one  ? $query->result() : $query->row();
+        return $result;
+    }
+
     function get($table,$fields,$where='',$perpage=0,$start=0,$one=false,$array='array'){
         
         $this->db->select($fields.',clientes.nombreCliente');
